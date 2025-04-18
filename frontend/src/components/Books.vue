@@ -34,17 +34,31 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import BookCard from "../components/BookCard.vue";
 import BookAddForm from "../components/BookAddForm.vue";
+import axios from "axios";
 
 const books = ref([]);
+onMounted(async () => {
+  axios
+    .get("http://localhost:4000/api/books")
+    .then((response) => {
+      books.value = response.data;
+      console.log(books.value);
+    })
+    .catch((error) => {
+      console.error("Error fetching books:", error);
+    });
+});
 
 const handleNewBook = (newBook) => {
   books.value.push(newBook);
 };
 
 const filteredBooks = (status) => {
-  return books.value.filter((book) => book.status === status);
+  return books.value.filter(
+    (book) => book.status.toLowerCase() === status.toLowerCase()
+  );
 };
 </script>

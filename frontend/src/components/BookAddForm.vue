@@ -60,7 +60,6 @@
 
 <script>
 import axios from "axios";
-import { errorMessages } from "vue/compiler-sfc";
 
 export default {
   data() {
@@ -83,10 +82,8 @@ export default {
         status: this.status,
       };
 
-      
       try {
         // POST request to backend
-        this.$emit("newBook", bookData);
         const response = await axios.post(
           "http://localhost:4000/api/books",
           bookData
@@ -94,6 +91,9 @@ export default {
 
         // Check if the response is successfully
         if (response.status === 200) {
+          // Emit the new book data to parent component
+          this.$emit("newBook", bookData);
+
           // Handle success
           console.log("Book added successfully", response.data);
         }

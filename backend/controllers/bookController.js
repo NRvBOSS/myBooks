@@ -46,6 +46,14 @@ const deleteBook = async (req, res) => {
     
 }
 
+// DELETE all books
+const delAllBooks = async (req, res) => {
+    const books = await Book.deleteMany({})
+
+    res.status(200).json(books)
+    
+}
+
 // update book
 const updateBook = async (req, res) => {
     const book = await Book.findByIdAndUpdate(req.params.id)
@@ -62,5 +70,6 @@ module.exports = {
     singleBook,
     newBook,
     deleteBook,
+    delAllBooks,
     updateBook
 }
