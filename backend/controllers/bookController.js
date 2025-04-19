@@ -56,7 +56,10 @@ const delAllBooks = async (req, res) => {
 
 // update book
 const updateBook = async (req, res) => {
-    const book = await Book.findByIdAndUpdate(req.params.id)
+    const book = await Book.findByIdAndUpdate(req.params.id,{
+        ...req.body
+
+    })
 
     if(!book){
         return res.status(404).json({ error: 'No such book' })

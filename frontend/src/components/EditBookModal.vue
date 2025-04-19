@@ -58,6 +58,7 @@
 </template>
 
 <script setup>
+import axios from "axios";
 import { watch, reactive } from "vue";
 const emit = defineEmits(["update:visible", "updated"]);
 const props = defineProps({
@@ -101,6 +102,15 @@ function saveChanges() {
     pages: form.pages,
     status: form.status,
   };
+
+  axios
+    .patch(`http://localhost:4000/api/books/${props.book._id}`, updatedBook)
+    .then(() => {
+      console.log("Book updated successfully");
+    })
+    .catch((error) => {
+      console.error("Error updating book:", error);
+    });
 
   emit("updated", updatedBook);
   closeModal();

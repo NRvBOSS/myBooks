@@ -42,9 +42,9 @@
         class="border-1 rounded-lg p-2 hover:shadow-2xl mr-3 w-full sm:w-72"
         v-model="status"
       >
-        <option value="completed">Completed</option>
-        <option value="reading">Reading</option>
-        <option value="not started">Not started</option>
+        <option class="text-green-500" value="completed">Completed</option>
+        <option class="text-yellow-400" value="reading">Reading</option>
+        <option class="text-red-500" value="not started">Not started</option>
       </select>
     </div>
     <div class="w-full flex justify-center">
