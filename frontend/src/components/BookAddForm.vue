@@ -2,13 +2,13 @@
   <form
     method="post"
     @submit.prevent="addBook"
-    class="flex justify-between m-6 border-2 p-3 rounded-lg text-center font-bold"
+    class="flex justify-between m-6 border-2 p-3 rounded-lg text-left font-bold sm:flex-col sm:items-center sm:gap-4"
   >
     <div class="text-center">
       <label class="mr-2" for="">Title</label>
       <input
         v-model="title"
-        class="border-1 rounded-lg p-2 hover:shadow-2xl"
+        class="border-1 rounded-lg p-2 hover:shadow-2xl w-full sm:w-72"
         type="text"
       />
     </div>
@@ -16,7 +16,7 @@
       <label class="mr-2" for="">Author</label>
       <input
         v-model="author"
-        class="border-1 rounded-lg p-2 hover:shadow-2xl"
+        class="border-1 rounded-lg p-2 hover:shadow-2xl mr-5 w-full sm:w-72"
         type="text"
       />
     </div>
@@ -24,7 +24,7 @@
       <label class="mr-2" for="">Genre</label>
       <input
         v-model="genre"
-        class="border-1 rounded-lg p-2 hover:shadow-2xl"
+        class="border-1 rounded-lg p-2 hover:shadow-2xl mr-3 w-full sm:w-72"
         type="text"
       />
     </div>
@@ -32,29 +32,29 @@
       <label class="mr-2" for="">Pages</label>
       <input
         v-model.number="pages"
-        class="border-1 rounded-lg p-2 hover:shadow-2xl"
+        class="border-1 rounded-lg p-2 hover:shadow-2xl mr-3 w-full sm:w-72"
         type="number"
       />
     </div>
     <div class="text-center">
       <label class="mr-2" for="">Status</label>
       <select
-        class="border-1 rounded-lg p-2 hover:shadow-2xl"
-        name=""
-        id=""
+        class="border-1 rounded-lg p-2 hover:shadow-2xl mr-3 w-full sm:w-72"
         v-model="status"
       >
-        <option class="text-green-500" value="completed">Completed</option>
-        <option class="text-yellow-400" value="reading">Reading</option>
-        <option class="text-red-500" value="not started">Not started</option>
+        <option value="completed">Completed</option>
+        <option value="reading">Reading</option>
+        <option value="not started">Not started</option>
       </select>
     </div>
-    <span
-      type="submit"
-      @click="addBook"
-      class="items-center rounded-2xl p-2 flex cursor-pointer bg-gray-300 hover:bg-gray-400 duration-150 justify-center"
-      >Add Book</span
-    >
+    <div class="w-full flex justify-center">
+      <button
+        type="submit"
+        class="items-center rounded-2xl p-2 flex cursor-pointer bg-gray-300 hover:bg-gray-400 duration-150 justify-center w-36"
+      >
+        Add Book
+      </button>
+    </div>
   </form>
 </template>
 
@@ -68,12 +68,11 @@ export default {
       author: "",
       genre: "",
       pages: "",
-      status: "",
+      status: "not started",
     };
   },
   methods: {
     async addBook() {
-      // Get data to send backend
       const bookData = {
         title: this.title,
         author: this.author,
@@ -83,29 +82,22 @@ export default {
       };
 
       try {
-        // POST request to backend
         const response = await axios.post(
           "http://localhost:4000/api/books",
           bookData
         );
 
-        // Check if the response is successfully
         if (response.status === 200) {
-          // Emit the new book data to parent component
-          this.$emit("newBook", bookData);
-
-          // Handle success
+          this.$emit("new-book", response.data);
           console.log("Book added successfully", response.data);
         }
 
-        // Clear data
         this.title = "";
         this.author = "";
         this.genre = "";
         this.pages = "";
-        this.status = "";
+        this.status = "not started";
       } catch (error) {
-        // Handle error
         console.error(error);
       }
     },
