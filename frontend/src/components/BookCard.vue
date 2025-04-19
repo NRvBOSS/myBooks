@@ -14,7 +14,7 @@
 
       <div class="flex flex-col gap-2 text-right">
         <span
-          @click="$emit('edit-book', book)"
+        @click="$emit('edit-book', book)"
           class="cursor-pointer hover:bg-gray-300 px-3 py-1 rounded-lg duration-150"
         >
           Edit
@@ -32,6 +32,7 @@
 </template>
 
 <script setup>
+
 defineProps({
   books: {
     type: Array,
